@@ -2,8 +2,8 @@ import { Box } from 'components/Commons/Box';
 import { FilterTitle } from './Filter.styled';
 import { Input } from 'components/ContactForm/ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFiltersQuery } from 'redux/selectors';
-import { setFiltersQuery } from 'redux/fitersSlice';
+import { selectFiltersQuery } from 'redux/contacts/selectors';
+import { setFiltersQuery } from 'redux/contacts/fitersSlice';
 
 export const Filter = () => {
   const query = useSelector(selectFiltersQuery);

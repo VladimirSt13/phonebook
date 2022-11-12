@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { Form, Input, Label, Button } from './LoginForm.styled';
-// import { useDispatch } from 'react-redux';
-// import { logIn } from 'redux/authOperations';
+import { useDispatch } from 'react-redux';
+import { logIn } from 'redux/auth/operations';
 
 const initialValues = {
   email: '',
@@ -9,14 +9,14 @@ const initialValues = {
 };
 
 export const LoginForm = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const handleSubmit = (values, actions) => {
-    // dispatch(
-    //   logIn({
-    //     email: values.email.trim(),
-    //     password: values.password.trim(),
-    //   })
-    // );
+    dispatch(
+      logIn({
+        email: values.email.trim(),
+        password: values.password.trim(),
+      })
+    );
     actions.resetForm();
   };
 

@@ -1,7 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { Form, Input, Label, Button } from './RegisterForm.styled';
-// import { useDispatch } from 'react-redux';
-// import { register } from 'redux/auth/operations';
+import { register } from 'redux/auth/operations';
 
 const initialValues = {
   name: '',
@@ -10,15 +10,15 @@ const initialValues = {
 };
 
 export const RegisterForm = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const handleSubmit = (values, actions) => {
-    // dispatch(
-    //   register({
-    //     name: values.name,
-    //     email: values.email,
-    //     password: values.password,
-    //   })
-    // );
+    dispatch(
+      register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+    );
     actions.resetForm(initialValues);
   };
 

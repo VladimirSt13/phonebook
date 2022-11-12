@@ -6,6 +6,6 @@ export const Wrapper = styled.div`
   gap: 12px;
 `;
 
-export const UserName = styled.p`
+export const User = styled.p`
   font-weight: 700;
 `;

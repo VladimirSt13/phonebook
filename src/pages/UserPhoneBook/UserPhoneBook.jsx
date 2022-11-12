@@ -1,13 +1,12 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Box } from 'components/Commons/Box';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectIsLoading } from 'redux/selectors';
-import { useEffect } from 'react';
-
-import { fetchContacts } from 'redux/operations';
+import { selectError, selectIsLoading } from 'redux/contacts/selectors';
+import { fetchContacts } from 'redux/contacts/operations';
 
 export default function UserPhoneBook() {
   const dispatch = useDispatch();

@@ -1,34 +1,38 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectIsLoading } from 'redux/selectors';
-import { fetchContacts } from 'redux/operations';
-import { Box } from 'components/Commons/Box';
-import { ContactForm } from './ContactForm/ContactForm';
-import { Filter } from './Filter/Filter';
-import { ContactList } from 'components/ContactList/ContactList';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from 'components/Layout/Layout';
+import Home from 'pages/Home/Home';
+import Login from 'pages/Login/Login';
+import Register from 'pages/Register/Register';
+import UserPhoneBook from 'pages/UserPhoneBook/UserPhoneBook';
 
 export const App = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
   return (
-    <Box width="1024px" mx="auto" display="flex" gap="20px">
-      <Box>
-        <Box as="h1">Phonebook</Box>
-        <ContactForm />
-      </Box>
-      <Box ml="10px">
-        <Box as="h2">Contacts</Box>
-        <Filter />
-        {isLoading && <div>Loading...</div>}
-        {error && <div>Try again later...</div>}
-        <ContactList />
-      </Box>
-    </Box>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/user-phone-book" element={<UserPhoneBook />} />
+      </Route>
+    </Routes>
   );
 };
+
+/* <Route
+          path="/register"
+          element={
+            <RestrictedRoute redirectTo="/tasks" component={<Register />} />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/tasks" component={<Login />} />
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute redirectTo="/login" component={<UserPhoneBook />} />
+          }
+        /> */

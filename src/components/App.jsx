@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Layout } from 'components/Layout/Layout';
 import Home from 'pages/Home/Home';
 import Login from 'pages/Login/Login';
@@ -6,8 +8,15 @@ import Register from 'pages/Register/Register';
 import UserPhoneBook from 'pages/UserPhoneBook/UserPhoneBook';
 import { RestrictedRoute } from './RestrictedRoute';
 import { PrivateRoute } from './PrivateRoute';
+import { refreshUser } from 'redux/auth/operations';
 
 export const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

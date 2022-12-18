@@ -8,10 +8,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectIsLoading } from 'redux/contacts/selectors';
 import { fetchContacts } from 'redux/contacts/operations';
 
+import { useState } from 'react';
+import { Modal } from 'components/Modal/Modal';
+
 export default function UserPhoneBook() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -19,19 +28,21 @@ export default function UserPhoneBook() {
 
   return (
     <>
-      <Box display="flex" gap="20px" px="16px">
-        <Box>
-          <Box as="h1">Phonebook</Box>
-          <ContactForm />
-        </Box>
-        <Box ml="10px">
-          <Box as="h2">Contacts</Box>
-          <Filter />
-          {isLoading && <div>Loading...</div>}
-          {error && <div>Try again later...</div>}
-          <ContactList />
-        </Box>
-      </Box>
+      <button type="button" onClick={toggleModal}>
+        Add contact
+      </button>
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <Box bg={p => p.theme.colors.background}>
+            <ContactForm onAddConctact={toggleModal} />
+          </Box>
+        </Modal>
+      )}
+      <Box as="h1">Phonebook</Box>
+      <Filter />
+      {isLoading && <div>Loading...</div>}
+      {error && <div>Try again later...</div>}
+      <ContactList />
     </>
   );
 }

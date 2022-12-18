@@ -6,7 +6,7 @@ import { Box } from 'components/Commons/Box';
 
 export const Layout = () => {
   return (
-    <Box width="1024px" mx="auto" px="16px">
+    <Box width="1024px" mx="auto" px="16px" height="100vh">
       <AppBar />
       <Suspense fallback={null}>
         <Outlet />

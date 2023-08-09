@@ -2,11 +2,10 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vladimirst13.github.io/gitphonebook/",
+  "homepage": "https://vladimirst13.github.io/phonebook/",
   "dependencies": {
     "@redux-devtools/extension": "^3.2.3",
     "@reduxjs/toolkit": "^1.8.6",
-    "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.1.3",
@@ -30,16 +29,12 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint:js": "eslint src/**/*.{js,jsx}"
+    "dev": "react-scripts start",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {

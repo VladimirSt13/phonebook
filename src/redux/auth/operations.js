@@ -1,24 +1,16 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { server, token } from 'api/apiService';
 import { toast } from 'react-hot-toast';
-
-axios.defaults.baseURL = 'https://phonebook-server-bl4n.onrender.com';
-
-const setAuthHeader = token => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = '';
-};
 
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/users/signup', credentials);
-      setAuthHeader(res.data.token);
-      toast.success('Registration successfull');
+      const res = await server.post('/users/signup', credentials);
+      console.log('file: operations.js:12  res:', res);
+
+      token.set(res.data.user.token);
+      toast.success('Registration successful');
       return res.data;
     } catch (error) {
       toast.error(`Register: ${error.message}`);
@@ -30,10 +22,14 @@ export const register = createAsyncThunk(
 export const logIn = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
+    console.log('file: operations.js:25  credentials:', credentials);
+
     try {
-      const res = await axios.post('/users/login', credentials);
-      toast.success('LogIn successfull');
-      setAuthHeader(res.data.token);
+      const res = await server.post('/users/login', credentials);
+      console.log('file: operations.js:29  res:', res);
+
+      token.set(res.data.token);
+      toast.success('LogIn successful');
       return res.data;
     } catch (error) {
       toast.error(`Log in error: ${error.message}`);
@@ -44,9 +40,9 @@ export const logIn = createAsyncThunk(
 
 export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
-    await axios.post('/users/logout');
+    await server.post('/users/logout');
+    token.unset();
     toast.success('LogOut successfull');
-    clearAuthHeader();
   } catch (error) {
     toast.error(`Log out error: ${error.message}`);
 
@@ -61,17 +57,15 @@ export const refreshUser = createAsyncThunk(
     const persistedToken = state.auth.token;
 
     if (persistedToken === null) {
-      toast.error('Unable to fetch user');
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
 
     try {
-      setAuthHeader(persistedToken);
-      const res = await axios.get('/users/current');
-      toast.success('Refresg successfull');
+      token.set(persistedToken);
+      const res = await server.get('/users/current');
+
       return res.data;
     } catch (error) {
-      toast.error(`Refresh error: ${error.message}`);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

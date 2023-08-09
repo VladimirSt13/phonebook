@@ -1,14 +1,12 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
-axios.defaults.baseURL = 'https://phonebook-server-bl4n.onrender.com';
+import { server } from 'api/apiService';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('/contacts');
-      return response.data;
+      const response = await server.get('/contacts');
+      return response.data.contacts;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -19,8 +17,10 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async ({ name, number }, thunkAPI) => {
     try {
-      const response = await axios.post('/contacts', { name, number });
-      return response.data;
+      const response = await server.post('/contacts', { name, phone: number });
+      console.log('file: operations.js:24  response:', response);
+
+      return response.data.contact;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -31,7 +31,7 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, thunkAPI) => {
     try {
-      const response = await axios.delete(`/contacts/${contactId}`);
+      const response = await server.delete(`/contacts/${contactId}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

@@ -34,7 +34,7 @@ export default function UserPhoneBook() {
       {showModal && (
         <Modal onClose={toggleModal}>
           <Box bg={p => p.theme.colors.background}>
-            <ContactForm onAddConctact={toggleModal} />
+            <ContactForm onAddContact={toggleModal} />
           </Box>
         </Modal>
       )}

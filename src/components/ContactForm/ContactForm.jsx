@@ -5,7 +5,7 @@ import { selectContacts } from 'redux/contacts/selectors';
 import { addContact } from 'redux/contacts/operations';
 import { Box } from 'components/Commons/Box';
 
-export const ContactForm = ({ onAddConctact }) => {
+export const ContactForm = ({ onAddContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -17,8 +17,12 @@ export const ContactForm = ({ onAddConctact }) => {
     setNumber('');
   };
 
-  const checkContact = newName =>
-    contacts.find(({ name }) => name === newName) ? true : false;
+  const checkContact = newName => {
+    if (!contacts) {
+      return;
+    }
+    return contacts.find(({ name }) => name === newName) ? true : false;
+  };
 
   const handleChange = e => {
     switch (e.target.name) {
@@ -47,7 +51,7 @@ export const ContactForm = ({ onAddConctact }) => {
     }
 
     dispatch(addContact({ name, number }));
-    onAddConctact();
+    onAddContact();
     reset();
   };
 

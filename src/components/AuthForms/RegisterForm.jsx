@@ -12,6 +12,7 @@ import {
 } from './AuthForms.styled';
 import * as Yup from 'yup';
 import { register } from 'redux/auth/operations';
+
 const initialValues = {
   name: '',
   email: '',

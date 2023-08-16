@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkPhone_Book=self.webpackChunkPhone_Book||[]).push([[485],{3485:function(n,e,t){t.r(e),t.d(e,{default:function(){return u}});var i,o,c=t(168),h=t(6444),r=h.ZP.div(i||(i=(0,c.Z)(["\n  min-height: calc(100vh - 67px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n"]))),l=h.ZP.h1(o||(o=(0,c.Z)(["\n  font-weight: 500;\n  font-size: 48px;\n  text-align: center;\n"]))),s=t(184);function u(){return(0,s.jsx)(r,{children:(0,s.jsx)(l,{children:"Welcome in phonebook "})})}}}]);
-//# sourceMappingURL=485.5a663734.chunk.js.map

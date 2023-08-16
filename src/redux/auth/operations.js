@@ -1,17 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { server, token } from 'api/apiService';
+import { authService } from 'api/authService';
 import { toast } from 'react-hot-toast';
 
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
     try {
-      const res = await server.post('/users/signup', credentials);
-      console.log('file: operations.js:12  res:', res);
+      const response = authService.register(credentials);
 
-      token.set(res.data.user.token);
       toast.success('Registration successful');
-      return res.data;
+      return response;
     } catch (error) {
       toast.error(`Register: ${error.message}`);
       return thunkAPI.rejectWithValue(error.message);
@@ -22,15 +20,11 @@ export const register = createAsyncThunk(
 export const logIn = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
-    console.log('file: operations.js:25  credentials:', credentials);
-
     try {
-      const res = await server.post('/users/login', credentials);
-      console.log('file: operations.js:29  res:', res);
+      const response = await authService.login(credentials);
 
-      token.set(res.data.token);
       toast.success('LogIn successful');
-      return res.data;
+      return response;
     } catch (error) {
       toast.error(`Log in error: ${error.message}`);
       return thunkAPI.rejectWithValue(error.message);
@@ -40,8 +34,7 @@ export const logIn = createAsyncThunk(
 
 export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
-    await server.post('/users/logout');
-    token.unset();
+    await authService.logout();
     toast.success('LogOut successfull');
   } catch (error) {
     toast.error(`Log out error: ${error.message}`);
@@ -61,10 +54,9 @@ export const refreshUser = createAsyncThunk(
     }
 
     try {
-      token.set(persistedToken);
-      const res = await server.get('/users/current');
+      const response = await authService.getCurrentUser(persistedToken);
 
-      return res.data;
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

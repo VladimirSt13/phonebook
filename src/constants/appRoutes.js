@@ -1,6 +1,5 @@
-export const BASE_NAME = '/phonebook';
-
 export const appRoutes = {
+  BASE_NAME: '/phonebook',
   HOME: '/',
   LOGIN: '/login',
   REGISTER: '/register',

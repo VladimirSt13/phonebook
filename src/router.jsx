@@ -13,42 +13,47 @@ const UserPhoneBookPage = lazy(() =>
   import('pages/UserPhoneBookPage/UserPhoneBookPage')
 );
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: appRoutes.HOME,
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+        {
+          path: appRoutes.REGISTER,
+          element: (
+            <RestrictedRoute
+              redirectTo={appRoutes.USER_PHONE_BOOK}
+              component={<RegisterPage />}
+            />
+          ),
+        },
+        {
+          path: appRoutes.LOGIN,
+          element: (
+            <RestrictedRoute
+              redirectTo={appRoutes.USER_PHONE_BOOK}
+              component={<LoginPage />}
+            />
+          ),
+        },
+        {
+          path: appRoutes.USER_PHONE_BOOK,
+          element: (
+            <PrivateRoute
+              redirectTo={appRoutes.LOGIN}
+              component={<UserPhoneBookPage />}
+            />
+          ),
+        },
+      ],
+    },
+  ],
   {
-    path: appRoutes.HOME,
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: appRoutes.REGISTER,
-        element: (
-          <RestrictedRoute
-            redirectTo={appRoutes.USER_PHONE_BOOK}
-            component={<RegisterPage />}
-          />
-        ),
-      },
-      {
-        path: appRoutes.LOGIN,
-        element: (
-          <RestrictedRoute
-            redirectTo={appRoutes.USER_PHONE_BOOK}
-            component={<LoginPage />}
-          />
-        ),
-      },
-      {
-        path: appRoutes.USER_PHONE_BOOK,
-        element: (
-          <PrivateRoute
-            redirectTo={appRoutes.LOGIN}
-            component={<UserPhoneBookPage />}
-          />
-        ),
-      },
-    ],
-  },
-]);
+    basename: appRoutes.BASE_NAME,
+  }
+);

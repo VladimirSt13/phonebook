@@ -1,8 +1,8 @@
-const homePath = '/phonebook';
+export const BASE_NAME = '/phonebook';
 
 export const appRoutes = {
-  HOME: `${homePath}/`,
-  LOGIN: `login`,
-  REGISTER: `register`,
-  USER_PHONE_BOOK: `user-phone-book`,
+  HOME: '/',
+  LOGIN: '/login',
+  REGISTER: '/register',
+  USER_PHONE_BOOK: '/user-phone-book',
 };

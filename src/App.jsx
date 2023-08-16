@@ -12,11 +12,5 @@ export const App = () => {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
-    <RouterProvider
-      router={router}
-      fallbackElement={<Loader />}
-      basename="phonebook"
-    />
-  );
+  return <RouterProvider router={router} fallbackElement={<Loader />} />;
 };

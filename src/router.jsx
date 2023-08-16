@@ -4,7 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from 'components/Layout/Layout';
 import { RestrictedRoute } from 'components/RestrictedRoute';
 import { PrivateRoute } from 'components/PrivateRoute';
-import { BASE_NAME, appRoutes } from 'constants/appRoutes';
+import { appRoutes } from 'constants/appRoutes';
 
 const HomePage = lazy(() => import('pages/HomePage/HomePage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));

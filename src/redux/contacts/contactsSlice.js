@@ -7,7 +7,7 @@ import {
 import { fetchContacts, addContact, deleteContact } from './operations';
 
 const initialState = {
-  items: [],
+  contacts: [],
   isLoading: false,
   error: null,
 };
@@ -33,16 +33,15 @@ const contactsSlice = createSlice({
   extraReducers: builder =>
     builder
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.contacts = action.payload;
       })
       .addCase(addContact.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+        state.contacts.push(action.payload);
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          task => task.id === action.payload.id
+        state.contacts = state.contacts.filter(
+          contact => action.payload.contact._id !== contact._id
         );
-        state.items.splice(index, 1);
       })
       .addMatcher(isPending(), handlePending)
       .addMatcher(isRejectedWithValue(), handleRejected)

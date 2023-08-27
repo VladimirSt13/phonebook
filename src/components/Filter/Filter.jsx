@@ -1,4 +1,4 @@
-import { Box } from 'src/components/Commons/Box';
+import { Box } from 'src/components/commons/Box';
 import { FilterTitle } from './Filter.styled';
 import { Input } from 'src/components/ContactContainer/ContactForm/ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';

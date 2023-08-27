@@ -20,5 +20,5 @@ export const Loader = ({ visible }) => {
 };
 
 Loader.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  visible: PropTypes.bool,
 };

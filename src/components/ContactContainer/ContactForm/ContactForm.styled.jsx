@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const Form = styled.form`
   display: flex;
   padding: 20px;
+  gap: 12px;
+
   flex-direction: column;
   max-width: 320px;
   align-items: center;
@@ -11,13 +13,11 @@ export const Form = styled.form`
 
 export const Label = styled.label`
   display: block;
+  width: 100%;
   & span {
     font-weight: 700;
     display: block;
     margin-bottom: 5px;
-  }
-  &:not(:last-child) {
-    margin-bottom: 10px;
   }
 `;
 

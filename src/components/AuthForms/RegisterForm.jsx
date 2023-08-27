@@ -70,7 +70,7 @@ export const RegisterForm = () => {
         border: '1px solid #b7b7bf',
       }}
     >
-      <label htmlFor="name">
+      <label>
         Username
         <input
           type="text"

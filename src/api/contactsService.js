@@ -13,7 +13,7 @@ export const contactsService = {
   add: async contact => {
     try {
       const response = await server.post('/contacts', contact);
-      return response.data.contact;
+      return response.data.newContact;
     } catch (error) {
       throw new Error(error);
     }

@@ -5,7 +5,6 @@ import { contactsActions } from 'src/redux';
 
 export const Contact = ({ contact }) => {
   const { _id: id, name, phone: number } = contact;
-  console.log('file: Contact.jsx:8  Contact  contact:', contact);
 
   const dispatch = useDispatch();
 

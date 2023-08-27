@@ -19,8 +19,6 @@ export const addContact = createAsyncThunk(
     const contact = { name, phone: number };
     try {
       const response = await contactsService.add(contact);
-      console.log('file: operations.js:22  response:', response);
-
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -33,6 +31,7 @@ export const deleteContact = createAsyncThunk(
   async (contactId, thunkAPI) => {
     try {
       const response = await contactsService.remove(contactId);
+
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

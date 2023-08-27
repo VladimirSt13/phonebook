@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box } from 'src/components/Commons/Box';
+import { Box } from 'src/components';
 import { ContactForm } from 'src/components/ContactContainer/ContactForm/ContactForm';
 import { ContactList } from 'src/components/ContactContainer/ContactList/ContactList';
 import { Filter } from 'src/components/Filter/Filter';
@@ -32,15 +32,17 @@ export default function UserPhoneBook() {
       </button>
       {showModal && (
         <Modal onClose={toggleModal}>
-          <Box bg={p => p.theme.colors.background}>
-            <ContactForm onAddContact={toggleModal} />
-          </Box>
+          <ContactForm onAddContact={toggleModal} />
         </Modal>
       )}
       <Box as="h1">Phonebook</Box>
+
       <Filter />
+
       {isLoading && <div>Loading...</div>}
+
       {error && <div>Try again later...</div>}
+
       <ContactList />
     </>
   );

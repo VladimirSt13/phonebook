@@ -1,21 +1,45 @@
-import { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Label, Input, Button } from './ContactForm.styled';
-import { selectContacts } from 'src/redux/contacts/selectors';
 import { addContact } from 'src/redux/contacts/operations';
-import { Box } from 'src/components/Commons/Box';
+import { selectContacts } from 'src/redux/contacts/selectors';
+import * as Yup from 'yup';
+import { Button, Form, Input, Label } from './ContactForm.styled';
+
+const initialValues = {
+  name: '',
+  number: '',
+};
+
+const contactSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('Required')
+    .matches(
+      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    ),
+  number: Yup.string()
+    .required('Required')
+    .matches(
+      /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+    ),
+});
 
 export const ContactForm = ({ onAddContact }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const reset = () => {
-    setName('');
-    setNumber('');
-  };
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isValid },
+  } = useForm({
+    resolver: yupResolver(contactSchema),
+    defaultValues: initialValues,
+    mode: 'onBlur',
+  });
 
   const checkContact = newName => {
     if (!contacts) {
@@ -24,70 +48,41 @@ export const ContactForm = ({ onAddContact }) => {
     return contacts.find(({ name }) => name === newName) ? true : false;
   };
 
-  const handleChange = e => {
-    switch (e.target.name) {
-      case 'name':
-        setName(e.target.value);
-        break;
-
-      case 'number':
-        setNumber(e.target.value);
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const onSubmitForm = e => {
-    e.preventDefault();
-
-    const name = e.currentTarget.name.value;
-    const number = e.currentTarget.number.value;
-
-    if (checkContact(name)) {
-      alert(`${name} is already is in contacts`);
+  const onSubmit = data => {
+    if (checkContact(data.name)) {
+      alert(`${data.name} is already is in contacts`);
       return;
     }
-
-    dispatch(addContact({ name, number }));
+    dispatch(addContact(data));
     onAddContact();
     reset();
   };
 
   return (
-    <Box bg="white" p={4} borderRadius="normal">
-      <Form autoComplete="off" onSubmit={onSubmitForm}>
-        <Label htmlFor="name">
-          <span>Name</span>
-          <Input
-            type="text"
-            name="name"
-            placeholder="Name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            value={name}
-            onChange={handleChange}
-          />
-        </Label>
+    <Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <Label>
+        <span>Name</span>
+        <Input type="text" placeholder="Name" {...register('name')} />
+        <div style={{ height: 20, color: 'red', fontSize: 8 }}>
+          {errors.name && <span>{errors.name?.message || 'Error !'}</span>}
+        </div>
+      </Label>
 
-        <Label htmlFor="number">
-          <span>Number</span>
-          <Input
-            type="tel"
-            name="number"
-            placeholder="Tel number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            value={number}
-            onChange={handleChange}
-          />
-        </Label>
+      <Label>
+        <span>Phone number</span>
+        <Input
+          type="tel"
+          placeholder="+000 000 00 00"
+          {...register('number')}
+        />
+        <div style={{ height: 20, color: 'red', fontSize: 8 }}>
+          {errors.number && <span>{errors.number?.message || 'Error !'}</span>}
+        </div>
+      </Label>
 
-        <Button type="submit">Add contact</Button>
-      </Form>
-    </Box>
+      <Button type="submit" disabled={!isValid}>
+        Add contact
+      </Button>
+    </Form>
   );
 };

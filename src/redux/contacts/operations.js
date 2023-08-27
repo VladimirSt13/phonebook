@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { contactsService } from 'api/contactsService';
+import { contactsService } from 'src/api/contactsService';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
@@ -19,6 +19,7 @@ export const addContact = createAsyncThunk(
     const contact = { name, phone: number };
     try {
       const response = await contactsService.add(contact);
+      console.log('file: operations.js:22  response:', response);
 
       return response;
     } catch (error) {

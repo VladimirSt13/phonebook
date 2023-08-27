@@ -1,5 +1,4 @@
-import { Title } from './HomePage.styled';
-import { Container } from './HomePage.styled';
+import { Container, Title } from './HomePage.styled';
 
 export default function Home() {
   return (

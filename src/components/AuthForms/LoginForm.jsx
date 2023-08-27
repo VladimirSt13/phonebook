@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn } from 'redux/auth/operations';
 import * as Yup from 'yup';
 import { Button, VisibilityButton } from './AuthForms.styled';
 import { useForm } from 'react-hook-form';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { authActions } from 'src/redux/auth/slice';
 
 const initialValues = {
   email: '',
@@ -42,12 +42,12 @@ export const LoginForm = () => {
   };
 
   const onSubmit = data => {
-    dispatch(
-      logIn({
-        email: data.email.trim(),
-        password: data.password.trim(),
-      })
-    );
+    const preparedData = {
+      email: data.email.trim(),
+      password: data.password.trim(),
+    };
+
+    dispatch(authActions.logIn(preparedData));
     reset();
   };
 

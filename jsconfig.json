@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "target": "es2020",
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
 }

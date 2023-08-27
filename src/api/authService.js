@@ -1,4 +1,4 @@
-import { server, token } from 'api/apiService';
+import { server, token } from 'src/api/apiService';
 
 export const authService = {
   register: async data => {

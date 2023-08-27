@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { authService } from 'api/authService';
+import { authService } from 'src/api/authService';
 import { toast } from 'react-hot-toast';
 
 export const register = createAsyncThunk(

@@ -1,16 +1,16 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { Layout } from 'components/Layout/Layout';
-import { RestrictedRoute } from 'components/RestrictedRoute';
-import { PrivateRoute } from 'components/PrivateRoute';
-import { appRoutes } from 'constants/appRoutes';
+import { Layout } from 'src/components/Layout/Layout';
+import { RestrictedRoute } from 'src/components/RestrictedRoute';
+import { PrivateRoute } from 'src/components/PrivateRoute';
+import { appRoutes } from 'src/constants/appRoutes';
 
-const HomePage = lazy(() => import('pages/HomePage/HomePage'));
-const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
-const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
+const HomePage = lazy(() => import('src/pages/HomePage/HomePage'));
+const LoginPage = lazy(() => import('src/pages/LoginPage/LoginPage'));
+const RegisterPage = lazy(() => import('src/pages/RegisterPage/RegisterPage'));
 const UserPhoneBookPage = lazy(() =>
-  import('pages/UserPhoneBookPage/UserPhoneBookPage')
+  import('src/pages/UserPhoneBookPage/UserPhoneBookPage')
 );
 
 const routes = [

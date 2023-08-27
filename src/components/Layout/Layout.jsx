@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AppBar } from 'components/AppBar/AppBar';
+import { AppBar } from 'src/components/AppBar/AppBar';
 import { Suspense } from 'react';
-import { Box } from 'components/Commons/Box';
+import { Box } from 'src/components/Commons/Box';
 
 export const Layout = () => {
   return (

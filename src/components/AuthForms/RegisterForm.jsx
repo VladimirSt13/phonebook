@@ -6,7 +6,8 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { Button, VisibilityButton } from './AuthForms.styled';
-import { register as regUser } from 'redux/auth/operations';
+
+import { authActions } from 'src/redux/auth/slice';
 
 const registerSchema = Yup.object().shape({
   name: Yup.string()
@@ -48,13 +49,12 @@ export const RegisterForm = () => {
   };
 
   const onSubmit = data => {
-    dispatch(
-      regUser({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      })
-    );
+    const preparedData = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      password: data.password.trim(),
+    };
+    dispatch(authActions.register(preparedData));
     reset();
   };
 

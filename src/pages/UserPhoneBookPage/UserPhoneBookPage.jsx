@@ -1,15 +1,14 @@
-import React from 'react';
 import { useEffect } from 'react';
-import { Box } from 'components/Commons/Box';
-import { ContactForm } from 'components/ContactForm/ContactForm';
-import { Filter } from 'components/Filter/Filter';
-import { ContactList } from 'components/ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectIsLoading } from 'redux/contacts/selectors';
-import { fetchContacts } from 'redux/contacts/operations';
+import { Box } from 'src/components/Commons/Box';
+import { ContactForm } from 'src/components/ContactContainer/ContactForm/ContactForm';
+import { ContactList } from 'src/components/ContactContainer/ContactList/ContactList';
+import { Filter } from 'src/components/Filter/Filter';
+import { selectError, selectIsLoading } from 'src/redux/contacts/selectors';
 
 import { useState } from 'react';
-import { Modal } from 'components/Modal/Modal';
+import { Modal } from 'src/components/Modal/Modal';
+import { contactsActions } from 'src/redux';
 
 export default function UserPhoneBook() {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ export default function UserPhoneBook() {
   };
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(contactsActions.fetchContacts());
   }, [dispatch]);
 
   return (

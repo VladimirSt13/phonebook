@@ -17,17 +17,17 @@ const registerSchema = Yup.object().shape({
   password: Yup.string().min(7, 'Password is too short').required('Required'),
 });
 
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+};
+
 export const RegisterForm = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState({
     showPassword: false,
   });
-
-  const initialValues = {
-    name: '',
-    email: '',
-    password: '',
-  };
 
   const {
     handleSubmit,

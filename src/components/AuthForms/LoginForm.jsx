@@ -1,17 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { ErrorMessage, Formik } from 'formik';
-import * as Yup from 'yup';
-import {
-  Form,
-  Input,
-  Label,
-  Button,
-  Error,
-  VisibilityButton,
-} from './AuthForms.styled';
 import { logIn } from 'redux/auth/operations';
+import * as Yup from 'yup';
+import { Button, VisibilityButton } from './AuthForms.styled';
+import { useForm } from 'react-hook-form';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const initialValues = {
   email: '',
@@ -25,54 +19,76 @@ const loginSchema = Yup.object().shape({
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState({
+  const [state, setState] = useState({
     showPassword: false,
   });
 
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isValid },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: initialValues,
+    mode: 'onBlur',
+  });
+
   const handleClickShowPassword = () => {
-    setValue({
-      ...value,
-      showPassword: !value.showPassword,
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
     });
   };
 
-  const handleSubmit = (values, actions) => {
+  const onSubmit = data => {
     dispatch(
       logIn({
-        email: values.email.trim(),
-        password: values.password.trim(),
+        email: data.email.trim(),
+        password: data.password.trim(),
       })
     );
-    actions.resetForm();
+    reset();
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={loginSchema}
-      onSubmit={handleSubmit}
+    <form
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmit)}
+      style={{
+        padding: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '320px',
+        border: '1px solid #b7b7bf',
+      }}
     >
-      <Form autoComplete="off">
-        <Label htmlFor="email">
-          Email
-          <Input type="email" name="email" required />
-          <ErrorMessage name="email" component={Error} />
-        </Label>
+      <label htmlFor="email">
+        Email
+        <input
+          type="text"
+          {...register('email')}
+          aria-invalid={errors.email ? 'true' : 'false'}
+        />
+      </label>
+      <div style={{ height: 20, color: 'red' }}>
+        {errors.email && <span>{errors.email?.message || 'Error !'}</span>}
+      </div>
 
-        <Label htmlFor="password">
-          Password
-          <Input
-            type={value.showPassword ? 'text' : 'password'}
-            name="password"
-            required
-          />
-          <ErrorMessage name="password" component={Error} />
-          <VisibilityButton type="button" onClick={handleClickShowPassword}>
-            {value.showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-          </VisibilityButton>
-        </Label>
-        <Button type="submit">Log in</Button>
-      </Form>
-    </Formik>
+      <label htmlFor="password" style={{ position: 'relative' }}>
+        Password
+        <input
+          type={state.showPassword ? 'text' : 'password'}
+          {...register('password')}
+        />
+        <VisibilityButton type="button" onClick={handleClickShowPassword}>
+          {state.showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+        </VisibilityButton>
+      </label>
+
+      <Button type="submit" disabled={!isValid}>
+        Login
+      </Button>
+    </form>
   );
 };

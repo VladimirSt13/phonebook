@@ -1,91 +1,118 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
 import { useDispatch } from 'react-redux';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Formik, ErrorMessage } from 'formik';
-import {
-  Form,
-  Input,
-  Label,
-  Button,
-  Error,
-  VisibilityButton,
-} from './AuthForms.styled';
-import * as Yup from 'yup';
-import { register } from 'redux/auth/operations';
+import { Button, VisibilityButton } from './AuthForms.styled';
+import { register as regUser } from 'redux/auth/operations';
 
-const initialValues = {
-  name: '',
-  email: '',
-  password: '',
-};
-
-const loginSchema = Yup.object().shape({
+const registerSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too Short!')
     .max(70, 'Too Long!')
     .required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required().min(7, 'Password is too short'),
+  password: Yup.string().min(7, 'Password is too short').required('Required'),
 });
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState({
+  const [state, setState] = useState({
     showPassword: false,
   });
 
+  const initialValues = {
+    name: '',
+    email: '',
+    password: '',
+  };
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isValid },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues: initialValues,
+    mode: 'onBlur',
+  });
+
   const handleClickShowPassword = () => {
-    setValue({
-      ...value,
-      showPassword: !value.showPassword,
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
     });
   };
 
-  const handleSubmit = (values, actions) => {
+  const onSubmit = data => {
     dispatch(
-      register({
-        name: values.name,
-        email: values.email,
-        password: values.password,
+      regUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
       })
     );
-    actions.resetForm(initialValues);
+    reset();
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={loginSchema}
-      onSubmit={handleSubmit}
+    <form
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmit)}
+      style={{
+        padding: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '320px',
+        border: '1px solid #b7b7bf',
+      }}
     >
-      <Form autoComplete="off">
-        <Label htmlFor="name">
-          Username
-          <Input type="text" name="name" required />
-          <ErrorMessage name="name" component={Error} />
-        </Label>
+      <label htmlFor="name">
+        Username
+        <input
+          type="text"
+          {...register('name')}
+          aria-invalid={errors.name ? 'true' : 'false'}
+        />
+      </label>
+      <div style={{ height: 20, color: 'red' }}>
+        {errors.name && <span>{errors.name?.message || 'Error !'}</span>}
+      </div>
 
-        <Label htmlFor="email">
-          Email
-          <Input type="text" name="email" required />
-          <ErrorMessage name="email" component={Error} />
-        </Label>
+      <label htmlFor="email">
+        Email
+        <input
+          type="text"
+          {...register('email')}
+          aria-invalid={errors.email ? 'true' : 'false'}
+        />
+      </label>
+      <div style={{ height: 20, color: 'red' }}>
+        {errors.email && <span>{errors.email?.message || 'Error !'}</span>}
+      </div>
 
-        <Label htmlFor="password">
-          Password
-          <Input
-            type={value.showPassword ? 'text' : 'password'}
-            name="password"
-            required
-          />
-          <ErrorMessage name="password" component={Error} />
-          <VisibilityButton type="button" onClick={handleClickShowPassword}>
-            {value.showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-          </VisibilityButton>
-        </Label>
+      <label htmlFor="password" style={{ position: 'relative' }}>
+        Password
+        <input
+          type={state.showPassword ? 'text' : 'password'}
+          {...register('password')}
+        />
+        <VisibilityButton type="button" onClick={handleClickShowPassword}>
+          {state.showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+        </VisibilityButton>
+      </label>
+      <div style={{ height: 20, color: 'red' }}>
+        {errors.password && (
+          <span>{errors.password?.message || 'Error !'}</span>
+        )}
+      </div>
 
-        <Button type="submit">Register</Button>
-      </Form>
-    </Formik>
+      <Button type="submit" disabled={!isValid}>
+        Register
+      </Button>
+    </form>
   );
 };

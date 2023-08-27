@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://vladimirst13.github.io/phonebook/",
   "dependencies": {
+    "@hookform/resolvers": "^3.2.0",
     "@redux-devtools/extension": "^3.2.5",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
@@ -13,6 +14,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.45.4",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
     "react-loader-spinner": "^5.3.4",

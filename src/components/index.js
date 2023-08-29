@@ -1,1 +1,1 @@
-export * from './commons/index';
+export * from './commons';

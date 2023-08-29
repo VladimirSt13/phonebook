@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AppBar } from 'src/components/AppBar/AppBar';
 import { Suspense } from 'react';
-import { Box } from 'src/components/commons/Box';
+import { Box } from 'src/components/commons';
 
 export const Layout = () => {
   return (

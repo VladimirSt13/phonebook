@@ -52,7 +52,7 @@ export const ContactForm = ({ toggleModal }) => {
       setValue('name', contactForUpdate.name);
       setValue('number', contactForUpdate.phone);
     }
-  }, []);
+  }, [contactForUpdate, setValue]);
 
   const checkContact = newName => {
     if (!contacts) {

@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 
 import { TailSpin } from 'react-loader-spinner';
 
+import { Wrapper } from './Loader.styled';
+
 export const Loader = ({ visible }) => {
   return (
-    <div>
+    <Wrapper>
       <TailSpin
         height="80"
         width="80"
@@ -15,7 +17,7 @@ export const Loader = ({ visible }) => {
         wrapperClass=""
         visible={visible}
       />
-    </div>
+    </Wrapper>
   );
 };
 

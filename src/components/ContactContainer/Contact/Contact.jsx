@@ -3,13 +3,18 @@ import { Item } from './Contact.styled';
 import { useDispatch } from 'react-redux';
 import { contactsActions } from 'src/redux';
 
-export const Contact = ({ contact }) => {
+export const Contact = ({ contact, toggleModal }) => {
   const { _id: id, name, phone: number } = contact;
 
   const dispatch = useDispatch();
 
-  const onDeleteContact = contactId => {
-    dispatch(contactsActions.deleteContact(contactId));
+  const handleEdit = () => {
+    dispatch(contactsActions.setContactForUpdate(contact));
+    toggleModal();
+  };
+
+  const handleDelete = () => {
+    dispatch(contactsActions.deleteContact(id));
   };
 
   return (
@@ -17,7 +22,10 @@ export const Contact = ({ contact }) => {
       <div>
         <span>{name}:</span> <span>{number}</span>
       </div>
-      <button onClick={() => onDeleteContact(id)}>Delete</button>
+      <div>
+        <button onClick={handleEdit}>Edit</button>
+        <button onClick={handleDelete}>Delete</button>
+      </div>
     </Item>
   );
 };

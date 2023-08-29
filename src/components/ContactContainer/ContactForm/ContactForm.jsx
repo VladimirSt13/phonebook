@@ -1,10 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'src/redux/contacts/operations';
-import { selectContacts } from 'src/redux/contacts/selectors';
+import {
+  selectContactForUpdate,
+  selectContacts,
+} from 'src/redux/contacts/selectors';
 import * as Yup from 'yup';
 import { Button, Form, Input, Label } from './ContactForm.styled';
+import { contactsActions } from 'src/redux/contacts/contactsSlice';
+import { useEffect } from 'react';
 
 const initialValues = {
   name: '',
@@ -26,20 +30,29 @@ const contactSchema = Yup.object().shape({
     ),
 });
 
-export const ContactForm = ({ onAddContact }) => {
+export const ContactForm = ({ toggleModal }) => {
   const contacts = useSelector(selectContacts);
+  const contactForUpdate = useSelector(selectContactForUpdate);
   const dispatch = useDispatch();
 
   const {
     handleSubmit,
     register,
     reset,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(contactSchema),
     defaultValues: initialValues,
     mode: 'onBlur',
   });
+
+  useEffect(() => {
+    if (contactForUpdate) {
+      setValue('name', contactForUpdate.name);
+      setValue('number', contactForUpdate.phone);
+    }
+  }, []);
 
   const checkContact = newName => {
     if (!contacts) {
@@ -48,18 +61,39 @@ export const ContactForm = ({ onAddContact }) => {
     return contacts.find(({ name }) => name === newName) ? true : false;
   };
 
-  const onSubmit = data => {
+  const addContact = data => {
     if (checkContact(data.name)) {
       alert(`${data.name} is already is in contacts`);
       return;
     }
-    dispatch(addContact(data));
-    onAddContact();
+    dispatch(contactsActions.addContact(data));
     reset();
+    toggleModal();
+  };
+
+  const updateContact = data => {
+    const contact = { name: data.name, phone: data.number };
+    dispatch(
+      contactsActions.updateContact({ id: contactForUpdate._id, contact })
+    );
+    dispatch(contactsActions.setContactForUpdate(null));
+    reset();
+    toggleModal();
+  };
+
+  const cancel = () => {
+    if (contactForUpdate) {
+      dispatch(contactsActions.setContactForUpdate(null));
+    }
+    reset();
+    toggleModal();
   };
 
   return (
-    <Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      autoComplete="off"
+      onSubmit={handleSubmit(contactForUpdate ? updateContact : addContact)}
+    >
       <Label>
         <span>Name</span>
         <Input type="text" placeholder="Name" {...register('name')} />
@@ -80,8 +114,12 @@ export const ContactForm = ({ onAddContact }) => {
         </div>
       </Label>
 
+      <Button type="button" onClick={cancel}>
+        Cancel
+      </Button>
+
       <Button type="submit" disabled={!isValid}>
-        Add contact
+        {contactForUpdate ? 'Save' : 'Add contact'}
       </Button>
     </Form>
   );

@@ -9,6 +9,7 @@ import { selectError, selectIsLoading } from 'src/redux/contacts/selectors';
 import { useState } from 'react';
 import { Modal } from 'src/components/Modal/Modal';
 import { contactsActions } from 'src/redux';
+import { Loader } from 'src/components/Loader/Loader';
 
 export default function UserPhoneBook() {
   const dispatch = useDispatch();
@@ -32,18 +33,18 @@ export default function UserPhoneBook() {
       </button>
       {showModal && (
         <Modal onClose={toggleModal}>
-          <ContactForm onAddContact={toggleModal} />
+          <ContactForm toggleModal={toggleModal} />
         </Modal>
       )}
       <Box as="h1">Phonebook</Box>
 
       <Filter />
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <Loader />}
 
       {error && <div>Try again later...</div>}
 
-      <ContactList />
+      <ContactList toggleModal={toggleModal} />
     </>
   );
 }

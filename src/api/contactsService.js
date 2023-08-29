@@ -19,6 +19,15 @@ export const contactsService = {
     }
   },
 
+  update: async (contactId, contact) => {
+    try {
+      const response = await server.put(`/contacts/${contactId}`, contact);
+      return response.data.contact;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   remove: async contactId => {
     try {
       const response = await server.delete(`/contacts/${contactId}`);

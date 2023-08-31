@@ -1,4 +1,3 @@
-import { Box } from 'src/components/commons/Box';
 import { FilterTitle } from './Filter.styled';
 import { Input } from 'src/components/ContactContainer/ContactForm/ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +13,7 @@ export const Filter = () => {
   };
 
   return (
-    <Box>
+    <div>
       <FilterTitle>Find contacts by name</FilterTitle>
       <Input
         type="text"
@@ -22,6 +21,6 @@ export const Filter = () => {
         value={query}
         onChange={handleChangeFilter}
       />
-    </Box>
+    </div>
   );
 };

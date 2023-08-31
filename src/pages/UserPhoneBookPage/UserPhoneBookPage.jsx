@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box } from 'src/components';
 import { ContactForm } from 'src/components/ContactContainer/ContactForm/ContactForm';
 import { ContactList } from 'src/components/ContactContainer/ContactList/ContactList';
 import { Filter } from 'src/components/Filter/Filter';
@@ -36,7 +35,7 @@ export default function UserPhoneBook() {
           <ContactForm toggleModal={toggleModal} />
         </Modal>
       )}
-      <Box as="h1">Phonebook</Box>
+      <h1>Phonebook</h1>
 
       <Filter />
 

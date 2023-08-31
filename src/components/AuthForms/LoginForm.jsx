@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { Button, VisibilityButton } from './AuthForms.styled';
 import { useForm } from 'react-hook-form';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { authActions } from 'src/redux/auth/slice';
 
@@ -82,7 +81,7 @@ export const LoginForm = () => {
           {...register('password')}
         />
         <VisibilityButton type="button" onClick={handleClickShowPassword}>
-          {state.showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+          {state.showPassword ? 'Show' : 'Hide'}
         </VisibilityButton>
       </label>
 

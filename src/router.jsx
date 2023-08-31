@@ -12,6 +12,7 @@ const RegisterPage = lazy(() => import('src/pages/RegisterPage/RegisterPage'));
 const UserPhoneBookPage = lazy(() =>
   import('src/pages/UserPhoneBookPage/UserPhoneBookPage')
 );
+const NotFoundPage = lazy(() => import('src/pages/NotFoundPage/NotFoundPage'));
 
 const routes = [
   {
@@ -48,6 +49,10 @@ const routes = [
             component={<UserPhoneBookPage />}
           />
         ),
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },

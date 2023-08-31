@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
 import { useDispatch } from 'react-redux';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+
 import { Button, VisibilityButton } from './AuthForms.styled';
 
 import { authActions } from 'src/redux/auth/slice';
@@ -101,7 +101,7 @@ export const RegisterForm = () => {
           {...register('password')}
         />
         <VisibilityButton type="button" onClick={handleClickShowPassword}>
-          {state.showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+          {state.showPassword ? 'Show' : 'Hide'}
         </VisibilityButton>
       </label>
       <div style={{ height: 20, color: 'red' }}>

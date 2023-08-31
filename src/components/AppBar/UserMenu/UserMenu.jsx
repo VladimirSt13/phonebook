@@ -1,5 +1,7 @@
 import { useAuth } from 'src/hooks';
 import { useDispatch } from 'react-redux';
+import IconButton from '@mui/material/IconButton';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { User, Wrapper } from './UserMenu.styled';
 import { authActions } from 'src/redux';
@@ -11,9 +13,13 @@ export const UserMenu = () => {
   return (
     <Wrapper>
       <User>{user.email}</User>
-      <button type="button" onClick={() => dispatch(authActions.logOut())}>
-        Logout
-      </button>
+      <IconButton
+        aria-label="logout"
+        color="secondary"
+        onClick={() => dispatch(authActions.logOut())}
+      >
+        <LogoutIcon />
+      </IconButton>
     </Wrapper>
   );
 };
